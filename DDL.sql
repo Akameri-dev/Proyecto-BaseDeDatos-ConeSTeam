@@ -1,4 +1,5 @@
-# creacion de tablas y restricciones
+/* TABLAS
+*/
  CREATE TABLE Empresa_Corporativa (
     ID_Empresa INT IDENTITY(1,1) PRIMARY KEY,
     Nombre VARCHAR(30),
@@ -418,7 +419,8 @@ ADD CONSTRAINT ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
-/*ADD CHECK*/
+/*ADD CHECK
+*/
 
 ALTER TABLE Producto_Digital 
 ADD CONSTRAINT CHK_Precio_Base CHECK (Precio_Base_Actual >= 0);
@@ -481,5 +483,6 @@ ADD CONSTRAINT CHK_Porcentaje CHECK (Porcentaje_Descuento >=0 AND Porcentaje_Des
 ALTER TABLE Historial_Descuento
 ADD CONSTRAINT CHK_Fechas_Descuento CHECK (Fecha_Fin >= Fecha_Inicio);
 
-/*ADD TRIGGER*/
+# checar si no falta alguna tabla
 
+ 
