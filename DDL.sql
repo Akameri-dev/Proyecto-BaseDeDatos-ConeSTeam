@@ -202,6 +202,8 @@
     Monto_Descuento DECIMAL(10, 2),
     Monto_Impuesto DECIMAL(10, 2),
     Total_Pagado DECIMAL(10, 2),
+    ID_Usuario_FK INTEGER NOT NULL,
+    ID_Metodo_Pago_FK INTEGER NOT NULL
     
  );
 
@@ -419,8 +421,17 @@ ADD CONSTRAINT ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
-/*ADD CHECK
-*/
+ALTER TABLE Factura
+ADD CONSTRAINT FK_Factura_Usuario
+FOREIGN KEY (ID_Usuario_FK)
+REFERENCES Usuario(Id_Usuario);
+
+ALTER TABLE Factura
+ADD CONSTRAINT FK_Factura_Metodo_Pago
+FOREIGN KEY (ID_Metodo_Pago_FK)
+REFERENCES Metodo_Pago(ID_Metodo_Pago);
+
+/*ADD CHECK*/
 
 ALTER TABLE Producto_Digital 
 ADD CONSTRAINT CHK_Precio_Base CHECK (Precio_Base_Actual >= 0);
