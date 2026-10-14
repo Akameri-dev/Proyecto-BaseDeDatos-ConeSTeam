@@ -50,3 +50,16 @@ AFTER INSERT
         END
 END;
 GO
+
+CREATE TRIGGER tr_Add_auto_biblioteca
+ON Detalle_Factura
+AFTER INSERT
+    BEGIN
+        IF EXISTS (
+            SELECT 1
+            FROM INSERTED i
+            JOIN Biblioteca b ON b.ID_Producto = i.ID_Producto
+            WHERE ()
+        )
+END;
+GO
