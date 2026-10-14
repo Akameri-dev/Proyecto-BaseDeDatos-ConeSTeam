@@ -90,3 +90,43 @@ AFTER INSERT
         )
 END;
 GO
+
+
+CREATE TRIGGER tr_Validaciones_carrito
+ON Carrito
+AFTER INSERT
+    BEGIN  
+        IF EXISTS (
+            SELECT 1
+            FROM INSERTED i
+            JOIN Biblioteca b ON b.ID_Usuario = i.ID_Usuario
+            WHERE b.ID_Producto = i.ID_Producto
+        ) BEGIN
+            RAISERROR('Producto ya en biblioteca.', 16, 3);
+            ROLLBACK TRANSACTION;
+        END
+
+        IF EXISTS (
+            SELECT 1
+            FROM INSERTED i
+            JOIN DLC dlc ON dlc.ID_Producto = i.ID_Producto
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM Biblioteca b
+                WHERE dlc.Juego_Base = b.ID_Producto AND b.ID_Usuario = i.ID_Usuario
+
+            UNION
+
+                SELECT 1
+                FROM Carrito c
+                WHERE c.ID_Usuario = i.ID_Usuario AND c.ID_Producto = dlc.ID_Juego_Base
+
+            )
+
+        ) BEGIN
+            RAISERROR('Producto Falta de Juego Base.', 16, 4);
+            ROLLBACK TRANSACTION;
+        END
+
+    END;
+GO
