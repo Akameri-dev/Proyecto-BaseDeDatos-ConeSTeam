@@ -228,7 +228,7 @@
  CREATE TABLE Historial_Descuento (
     Fecha_Inicio DATE, 
     Fecha_Fin DATE,
-    Porcentaje_Descuento DECIMAL(3, 1),
+    Porcentaje_Descuento DECIMAL(3, 1), -- arreglar en otra rama de fix, en vez de ser (3, 1), que sea 3, 2 
     Nombre_Evento VARCHAR(50),
     ID_Producto_FK INTEGER,
     PRIMARY KEY (Fecha_Inicio, ID_Producto_FK),

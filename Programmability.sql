@@ -6,6 +6,47 @@
 
 /*ADD FUNC
 */
+CREATE FUNCTION fn_calcular_impuesto(@monto DECIMAL(10, 2))
+    RETURN DECIMAL(10, 2)
+    AS
+    BEGIN
+        @monto * 0.16
+    END;
+
+CREATE FUNCTION fn_precio_con_descuento(@ID_Producto INT, @fecha DATE)
+    RETURNS DECIMAL(10, 2)
+    BEGIN
+        DECLARE @precio_final DECIMAL(10, 2)
+        DECLARE @precio_base DECIMAL(10, 2)
+        DECLARE @porcentaje DECIMAL (3, 2)
+
+        --conseguimos precios base y lo guardamos en su var 
+        SELECT @precio_base = pd.Precio_Base_Actual
+        FROM Producto_Digital pd 
+        WHERE pd.ID_Producto = @ID_Producto
+
+        --obtenemos el porcentaje si existe
+        SELECT @porcentaje = hd.Porcentaje_Descuento
+        FROM Historial_Descuento 
+        WHERE (@ID_Producto = hd.ID_Producto
+              AND @fecha <= hd.Fecha_Fin AND hd.Fecha_Inicio <= @fecha)
+
+        --revisa para definir precio final
+        IF @porcentaje IS NOT NULL
+            BEGIN
+                SET @precio_final = @precio_base - (@precio_base * @porcentaje)
+            END;
+        ELSE
+            BEGIN
+                SET @precio_final = @precio_base
+            END;    
+
+        RETURN @precio_final
+    END; 
+
+
+    
+        
 
 
 
@@ -51,7 +92,7 @@ AFTER INSERT
 END;
 GO
 
-#raise error es ocmo un emnsaje de error que puedes darle un valor de gravedad de err
+--raise error es ocmo un emnsaje de error que puedes darle un valor de gravedad de err
 
 
 CREATE TRIGGER tr_Add_auto_biblioteca
@@ -72,9 +113,9 @@ AFTER INSERT
 END;
 GO
 
-# funciona por el orden de ejecucion de los tr
+--funciona por el orden de ejecucion de los tr
 
-# reembolso = chao de biblioteca
+--reembolso = chao de biblioteca
 CREATE TRIGGER  tr_Reembolso_dlt
 ON Reembolso
 AFTER INSERT
