@@ -7,7 +7,7 @@
 /*ADD FUNC
 */
 CREATE FUNCTION fn_calcular_impuesto(@monto DECIMAL(10, 2))
-    RETURN DECIMAL(10, 2)
+    RETURNS DECIMAL(10, 2)
     AS
     BEGIN
         @monto * 0.16
@@ -44,9 +44,36 @@ CREATE FUNCTION fn_precio_con_descuento(@ID_Producto INT, @fecha DATE)
         RETURN @precio_final
     END; 
 
+CREATE FUNCTION fn_clasificar_ingreso (@monto DECIMAL(10, 2))
+    RETURNS VARCHAR(12)
+    AS
+    BEGIN
+        DECLARE @clasif VARCHAR(12)
 
+        --establecemos un clasif segun el @monto
+        IF @monto > 10000
+            BEGIN
+                SET @clasif = 'AAA'
+            END;
+        ELSE IF @monto BETWEEN 2000 AND 10000
+            BEGIN
+                SET @clasif = 'Consolidado'
+            END;
+        ELSE
+            BEGIN
+                SET @clasif = 'Indie'
+            END;
+
+        RETURN @clasif
+    END;
     
-        
+--SET @clasif = CASE 
+--WHEN @monto > 10000 THEN 'AAA'
+--WHEN @monto BETWEEN 2000 AND 10000 THEN 'Consolidado'
+--ELSE 'Indie'
+--END;  
+--otra forma de hacerlo era asi, pero hoy no dejare que jarvis guie mi codigo*/
+     
 
 
 
