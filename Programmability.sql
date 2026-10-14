@@ -73,3 +73,20 @@ END;
 GO
 
 # funciona por el orden de ejecucion de los tr
+
+# reembolso = chao de biblioteca
+CREATE TRIGGER  tr_Reembolso_dlt
+ON Reembolso
+AFTER INSERT
+    BEGIN
+        DELETE FROM Biblioteca b
+        WHERE EXISTS (
+            SELECT 1
+            FROM INSERTED i
+            JOIN Detalle_Factura df ON df.ID_Factura = i.ID_Factura
+            JOIN Factura f ON f.ID_Factura = df.ID_Factura 
+            WHERE (i.ID_Producto = f.ID_Producto
+                  AND b.ID_Usuario = f.ID_Usuario)
+        )
+END;
+GO
