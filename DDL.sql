@@ -154,7 +154,7 @@
 
  CREATE TABLE Lista_Deseos (
     Fecha_Agregado DATE,
-    Notificar_Descuento BIT 
+    Notificar_Descuento BIT, 
     ID_Usuario_FK INTEGER,
     ID_Producto_FK INTEGER,
     PRIMARY KEY (ID_Usuario_FK, ID_Producto_FK),
@@ -173,7 +173,8 @@
     Calificacion_1_10 INTEGER, 
     Fecha_Publicacion DATE,
     Es_Critica_Especializada BIT, 
-
+    ID_Usuario_FK INTEGER,
+    ID_Producto_FK INTEGER,
  );
 
 
@@ -203,7 +204,7 @@
     Monto_Impuesto DECIMAL(10, 2),
     Total_Pagado DECIMAL(10, 2),
     ID_Usuario_FK INTEGER NOT NULL,
-    ID_Metodo_Pago_FK INTEGER NOT NULL
+    ID_Metodo_Pago_FK INTEGER NOT NULL,
     
  );
 
@@ -247,187 +248,197 @@
 */
 
 ALTER TABLE Empresa_Corporativa
-ADD CONSTRAINT ID_Empresa_Matriz
+ADD CONSTRAINT FK_Empresa_Corporativa_ID_Empresa_Matriz
 FOREIGN KEY (ID_Empresa_Matriz_FK)
 REFERENCES Empresa_Corporativa(ID_Empresa);
 
 ALTER TABLE Galeria_Multimedia
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Galeria_Multimedia_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Juego_Base
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Juego_Base_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Juego_Base
-ADD CONSTRAINT ID_Estudio_Dev
+ADD CONSTRAINT FK_Juego_Base_ID_Estudio_Dev
 FOREIGN KEY (ID_Estudio_Dev_FK)
 REFERENCES Empresa_Corporativa(ID_Empresa);
 
 ALTER TABLE Juego_Base
-ADD CONSTRAINT ID_Publisher
+ADD CONSTRAINT  FK_Juego_Base_ID_Publisher
 FOREIGN KEY (ID_Publisher_FK)
 REFERENCES Empresa_Corporativa(ID_Empresa);
 
 ALTER TABLE DLC
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_DLC_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE DLC
-ADD CONSTRAINT ID_Juego_Base
+ADD CONSTRAINT FK_DLC_ID_Juego_Base
 FOREIGN KEY (ID_Juego_Base_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Perfil_Requisito
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Perfil_Requisito_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Logro
-ADD CONSTRAINT ID_Juego_Base
+ADD CONSTRAINT FK_Logro_ID_Juego_Base
 FOREIGN KEY (ID_Juego_Base_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Juego_Categoria
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Juego_Categoria_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Juego_Categoria
-ADD CONSTRAINT ID_Categoria
+ADD CONSTRAINT FK_Juego_Categoria_ID_Categoria
 FOREIGN KEY (ID_Categoria_FK)
 REFERENCES Categoria_Oficial(ID_Categoria);
 
 ALTER TABLE Soporte_Idioma
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Soporte_Idioma_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Soporte_Idioma
-ADD CONSTRAINT ID_Idioma
+ADD CONSTRAINT FK_Soporte_Idioma_ID_Idioma
 FOREIGN KEY (ID_Idioma_FK)
 REFERENCES Idioma(ID_Idioma);
 
 ALTER TABLE Producto_Etiqueta
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Producto_Etiqueta_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Producto_Etiqueta
-ADD CONSTRAINT ID_Etiqueta
+ADD CONSTRAINT FK_Producto_Etiqueta_ID_Etiqueta
 FOREIGN KEY (ID_Etiqueta_FK)
 REFERENCES Etiqueta_Comunidad(ID_Etiqueta);
 
 ALTER TABLE Mod
-ADD CONSTRAINT ID_Producto_Base
+ADD CONSTRAINT FK_Mod_ID_Producto_Base
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Amistad_Usuario
-ADD CONSTRAINT ID_Usuario_Solicitante
+ADD CONSTRAINT FK_Amistad_Usuario_ID_Usuario_Solicitante
 FOREIGN KEY (ID_Usuario_Solicitante_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Amistad_Usuario
-ADD CONSTRAINT ID_Usuario_Receptor
+ADD CONSTRAINT FK_Amistad_Usuario_ID_Usuario_Receptor
 FOREIGN KEY (ID_Usuario_Receptor_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Desbloqueo_Logro
-ADD CONSTRAINT ID_Usuario
+ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Desbloqueo_Logro
-ADD CONSTRAINT ID_Juego_Base
+ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Juego_Base
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Desbloqueo_Logro
-ADD CONSTRAINT ID_Logro
+ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Logro
 FOREIGN KEY (ID_Logro_FK)
 REFERENCES Logro(ID_Logro);
 
 ALTER TABLE Biblioteca
-ADD CONSTRAINT ID_Usuario
+ADD CONSTRAINT FK_Biblioteca_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Biblioteca
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Biblioteca_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Lista_Deseos
-ADD CONSTRAINT ID_Usuario
+ADD CONSTRAINT FK_Lista_Deseos_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Lista_Deseos
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Lista_Deseos_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Carrito
-ADD CONSTRAINT ID_Usuario
+ADD CONSTRAINT FK_Carrito_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Carrito
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Carrito_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Suscripcion_Mod
-ADD CONSTRAINT ID_Usuario
+ADD CONSTRAINT FK_Suscripcion_Mod_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(ID_Usuario);
 
 ALTER TABLE Suscripcion_Mod
-ADD CONSTRAINT ID_Producto_Base
+ADD CONSTRAINT FK_Suscripcion_Mod_ID_Producto_Base
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Juego_Base(ID_Producto);
 
 ALTER TABLE Detalle_Factura
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Detalle_Factura_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Detalle_Factura
-ADD CONSTRAINT ID_Factura
+ADD CONSTRAINT FK_Detalle_Factura_ID_Factura
 FOREIGN KEY (ID_Factura_FK)
 REFERENCES Factura(ID_Factura);
 
 ALTER TABLE Reembolso
-ADD CONSTRAINT ID_Factura
+ADD CONSTRAINT FK_Reembolso_ID_Factura
 FOREIGN KEY (ID_Factura_FK)
 REFERENCES Factura(ID_Factura);
 
 ALTER TABLE Reembolso
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Reembolso_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Historial_Descuento
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Historial_Descuento_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Registro_Concurrencia
-ADD CONSTRAINT ID_Producto
+ADD CONSTRAINT FK_Registro_Concurrencia_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
 REFERENCES Producto_Digital(ID_Producto);
 
 ALTER TABLE Factura
-ADD CONSTRAINT FK_Factura_Usuario
+ADD CONSTRAINT FK_Factura_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Factura
-ADD CONSTRAINT FK_Factura_Metodo_Pago
+ADD CONSTRAINT FK_Factura_ID_Metodo_Pago
+FOREIGN KEY (ID_Metodo_Pago_FK)
+REFERENCES Metodo_Pago(ID_Metodo_Pago);
+
+ALTER TABLE Resena
+ADD CONSTRAINT FK_Resena_ID_Usuario
+FOREIGN KEY (ID_Usuario_FK)
+REFERENCES Usuario(Id_Usuario);
+
+ALTER TABLE Resena
+ADD CONSTRAINT FK_Resena_ID_Metodo_Pago
 FOREIGN KEY (ID_Metodo_Pago_FK)
 REFERENCES Metodo_Pago(ID_Metodo_Pago);
 
