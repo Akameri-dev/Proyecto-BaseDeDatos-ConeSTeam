@@ -22,7 +22,7 @@ AFTER UPDATE
             SELECT 1
             FROM INSERTED i
             JOIN DELETED d ON i.ID_Producto = d.ID_Producto
-            WHERE d.Precio_Base_Actual !=0
+            WHERE d.Precio_Base_Actual != 0
                 AND ABS(i.Precio_Base_Actual - d.Precio_Base_Actual) > (d.Precio_Base_Actual * 0.5) 
         ) BEGIN
             RAISERROR('El cambio supera el 50% del precio anterior.', 16, 1);
@@ -46,20 +46,30 @@ AFTER INSERT
 
         ) BEGIN
             RAISERROR('Error: papi fuera de aqui que ute no tiene la eda necesaria.', 16, 2);
-            ROLLBACK TRANSACTION;
+            ROLLBACK TRANSACTION; 
         END
 END;
 GO
 
+#raise error es ocmo un emnsaje de error que puedes darle un valor de gravedad de err
+
+
 CREATE TRIGGER tr_Add_auto_biblioteca
 ON Detalle_Factura
 AFTER INSERT
-    BEGIN
-        IF EXISTS (
-            SELECT 1
+        BEGIN
+
+        INSERT ON Biblioteca (ID_Usuario_FK, ID_Producto_FK, Horas_Jugadas, Fecha_Ultima_Sesion)
+            SELECT f.ID_Usuario, i.ID_Producto, 0, NULL
             FROM INSERTED i
-            JOIN Biblioteca b ON b.ID_Producto = i.ID_Producto
-            WHERE ()
-        )
+            JOIN Factura f ON i.ID_Factura = f.ID_Factura
+            WHERE NOT EXIST (
+                SELECT 1
+                FROM Biblioteca b
+                WHERE (b.ID_Usuario = f.ID_Usuario
+                        AND b.ID_Producto = i.ID_Producto)
+            )     
 END;
 GO
+
+# funciona por el orden de ejecucion de los tr
