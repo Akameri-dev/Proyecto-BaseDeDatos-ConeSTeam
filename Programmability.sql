@@ -116,7 +116,20 @@ CREATE FUNCTION fn_calcular_reputacion(@ID_Producto INT)
     END;
 GO
 
+CREATE FUNCTION fn_calcular_horas_totales_usuario(@ID_Usuario INT)
+    RETURNS DECIMAL(10, 2)
+    AS
+    BEGIN
+        DECLARE @horas_totales DECIMAL(10, 2)
 
+        -- observamos si el wey no tiene productos en biblioteca con el isnull 
+        SELECT @horas_totales = ISNULL(SUM(b.Horas_Jugadas),0.0)
+        FROM Biblioteca b
+        WHERE @ID_Usuario = b.ID_Usuario
+
+        RETURN @horas_totales
+    END;
+GO
 
 
 
