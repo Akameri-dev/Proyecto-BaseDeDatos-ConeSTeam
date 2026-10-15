@@ -12,6 +12,7 @@ CREATE FUNCTION fn_calcular_impuesto(@monto DECIMAL(10, 2))
     BEGIN
         @monto * 0.16
     END;
+GO
 
 CREATE FUNCTION fn_precio_con_descuento(@ID_Producto INT, @fecha DATE)
     RETURNS DECIMAL(10, 2)
@@ -43,6 +44,7 @@ CREATE FUNCTION fn_precio_con_descuento(@ID_Producto INT, @fecha DATE)
 
         RETURN @precio_final
     END; 
+GO
 
 CREATE FUNCTION fn_clasificar_ingreso (@monto DECIMAL(10, 2))
     RETURNS VARCHAR(12)
@@ -66,6 +68,7 @@ CREATE FUNCTION fn_clasificar_ingreso (@monto DECIMAL(10, 2))
 
         RETURN @clasif
     END;
+GO
     
 --SET @clasif = CASE 
 --WHEN @monto > 10000 THEN 'AAA'
@@ -74,7 +77,44 @@ CREATE FUNCTION fn_clasificar_ingreso (@monto DECIMAL(10, 2))
 --END;  
 --otra forma de hacerlo era asi, pero hoy no dejare que jarvis guie mi codigo*/
      
+CREATE FUNCTION fn_calcular_reputacion(@ID_Producto INT)
+    RETURNS DECIMAL(5, 2)
+    AS
+    BEGIN
+        DECLARE @reputacion DECIMAL(5, 2)
+        DECLARE @promedio_calificacion DECIMAL(5, 2)
+        DECLARE @puntaje_metacritic DECIMAL(5, 2)
+        DECLARE @total_jugadores INT
 
+        -- obtener promedio
+        SELECT @promedio_calificacion = ISNULL(SUM(r.Calificacion_1_10 * 1.0) / NULLIF(COUNT(r.ID_Usuario), 0), 0)
+        FROM Resena r 
+        WHERE @Id_Producto = r.ID_Producto
+
+        -- obtener puntaje metacritic
+        SELECT @puntaje_metacritic = ISNULL(pd.Metacritic_Score, 0)
+        FROM Producto_Digital pd
+        WHERE @ID_Producto = pd.ID_Producto
+
+        -- obtener total jugadores
+
+        SELECT @total_jugadores = COUNT(b.ID_Usuario)
+        FROM Biblioteca b
+        WHERE b.ID_Producto = @ID_Producto
+
+        -- calculo de formula
+        -- tiene tope en 100, deberiamos revisar en la practica, de mientras voy a obligar que si pasa de ese valor, lo forzaremos a 100
+        SET @reputacion = (@promedio_calificacion * 7) + (@puntaje_metacritic * 0.2) + (@total_jugadores * 0.05)
+
+        IF (@reputacion > 100)
+            BEGIN
+                SET @reputacion = 100
+            END;
+
+        RETURN @reputacion
+
+    END;
+GO
 
 
 
