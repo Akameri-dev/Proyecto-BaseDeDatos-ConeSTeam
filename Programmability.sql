@@ -13,7 +13,8 @@ CREATE FUNCTION fn_calcular_impuesto(@monto DECIMAL(10, 2))
     RETURNS DECIMAL(10, 2)
     AS
     BEGIN
-        @monto * 0.16
+        SET @monto= @monto * 0.16
+        RETURN @monto
     END;
 GO
 
@@ -31,8 +32,8 @@ CREATE FUNCTION fn_precio_con_descuento(@ID_Producto INT, @fecha DATE)
 
         --obtenemos el porcentaje si existe
         SELECT @porcentaje = hd.Porcentaje_Descuento
-        FROM Historial_Descuento 
-        WHERE (@ID_Producto = hd.ID_Producto
+        FROM Historial_Descuento hd
+        WHERE (@ID_Producto = hd.ID_Producto_FK
               AND @fecha <= hd.Fecha_Fin AND hd.Fecha_Inicio <= @fecha)
 
         --revisa para definir precio final
@@ -90,7 +91,7 @@ CREATE FUNCTION fn_calcular_reputacion(@ID_Producto INT)
         DECLARE @total_jugadores INT
 
         -- obtener promedio
-        SELECT @promedio_calificacion = ISNULL(SUM(r.Calificacion_1_10 * 1.0) / NULLIF(COUNT(r.ID_Usuario), 0), 0)
+        SELECT @promedio_calificacion = ISNULL(SUM(r.Calificacion_1_10 * 1.0) / NULLIF(COUNT(r.ID_Usuario_FK), 0), 0)
         FROM Resena r 
         WHERE @Id_Producto = r.ID_Producto_FK
 
@@ -141,6 +142,7 @@ GO
 CREATE TRIGGER tr_Auditoria_Precios
 ON Producto_Digital
 AFTER UPDATE 
+AS
     BEGIN  
         IF EXISTS (
             SELECT 1
@@ -151,20 +153,21 @@ AFTER UPDATE
         ) BEGIN
             RAISERROR('El cambio supera el 50% del precio anterior.', 16, 1);
             ROLLBACK TRANSACTION;
-        END
+        END;
     END;
 GO
 
 CREATE TRIGGER tr_Proteccion_menores
 ON Detalle_Factura
 AFTER INSERT
+AS
     BEGIN 
         IF EXISTS (
             SELECT 1
             FROM INSERTED i
-            JOIN Producto_Digital pd ON pd.ID_Producto = i.ID_Producto
-            JOIN Factura f ON f.ID_Factura = i.ID_Factura
-            JOIN Usuario u ON u.Id_Usuario = f.Id_Usuario
+            JOIN Producto_Digital pd ON pd.ID_Producto = i.ID_Producto_FK
+            JOIN Factura f ON f.ID_Factura = i.ID_Factura_FK
+            JOIN Usuario u ON u.Id_Usuario = f.ID_Usuario_FK
             WHERE (pd.Clasificacion_Edad IN ('M', 'AO'))
                 AND u.Fecha_Nacimiento > DATEADD(YEAR,-18,GETDATE()) 
 
@@ -181,17 +184,17 @@ GO
 CREATE TRIGGER tr_Add_auto_biblioteca
 ON Detalle_Factura
 AFTER INSERT
+AS
         BEGIN
-
-        INSERT ON Biblioteca (ID_Usuario_FK, ID_Producto_FK, Horas_Jugadas, Fecha_Ultima_Sesion)
-            SELECT f.ID_Usuario, i.ID_Producto, 0, NULL
+        INSERT INTO Biblioteca (ID_Usuario_FK, ID_Producto_FK, Horas_Jugadas, Fecha_Ultima_Sesion)
+            SELECT f.ID_Usuario_FK, i.ID_Producto_FK, 0, NULL
             FROM INSERTED i
-            JOIN Factura f ON i.ID_Factura = f.ID_Factura
-            WHERE NOT EXIST (
+            JOIN Factura f ON i.ID_Factura_FK = f.ID_Factura
+            WHERE NOT EXISTS (
                 SELECT 1
                 FROM Biblioteca b
-                WHERE (b.ID_Usuario = f.ID_Usuario
-                        AND b.ID_Producto = i.ID_Producto)
+                WHERE (b.ID_Usuario_FK = f.ID_Usuario_FK
+                        AND b.ID_Producto_FK = i.ID_Producto_FK)
             )     
 END;
 GO
@@ -202,16 +205,13 @@ GO
 CREATE TRIGGER  tr_Reembolso_dlt
 ON Reembolso
 AFTER INSERT
+AS
     BEGIN
-        DELETE FROM Biblioteca b
-        WHERE EXISTS (
-            SELECT 1
-            FROM INSERTED i
-            JOIN Detalle_Factura df ON df.ID_Factura = i.ID_Factura
-            JOIN Factura f ON f.ID_Factura = df.ID_Factura 
-            WHERE (i.ID_Producto = f.ID_Producto
-                  AND b.ID_Usuario = f.ID_Usuario)
-        )
+        DELETE b
+        FROM Biblioteca b
+        JOIN INSERTED i ON b.ID_Producto_FK = i.ID_Producto_FK
+        JOIN Factura f ON f.ID_Factura = i.ID_Factura_FK
+        WHERE b.ID_Usuario_FK = f.ID_Usuario_FK;
 END;
 GO
 
@@ -219,12 +219,13 @@ GO
 CREATE TRIGGER tr_Validaciones_carrito
 ON Carrito
 AFTER INSERT
+AS
     BEGIN  
         IF EXISTS (
             SELECT 1
             FROM INSERTED i
-            JOIN Biblioteca b ON b.ID_Usuario = i.ID_Usuario
-            WHERE b.ID_Producto = i.ID_Producto
+            JOIN Biblioteca b ON b.ID_Usuario_FK = i.ID_Usuario_FK
+            WHERE b.ID_Producto_FK = i.ID_Producto_FK
         ) BEGIN
             RAISERROR('Producto ya en biblioteca.', 16, 3);
             ROLLBACK TRANSACTION;
@@ -233,17 +234,17 @@ AFTER INSERT
         IF EXISTS (
             SELECT 1
             FROM INSERTED i
-            JOIN DLC dlc ON dlc.ID_Producto = i.ID_Producto
+            JOIN DLC dlc ON dlc.ID_Producto_FK = i.ID_Producto_FK
             WHERE NOT EXISTS (
                 SELECT 1
                 FROM Biblioteca b
-                WHERE dlc.Juego_Base = b.ID_Producto AND b.ID_Usuario = i.ID_Usuario
+                WHERE dlc.ID_Juego_Base_FK = b.ID_Producto_FK AND b.ID_Usuario_FK = i.ID_Usuario_FK
 
             UNION
 
                 SELECT 1
                 FROM Carrito c
-                WHERE c.ID_Usuario = i.ID_Usuario AND c.ID_Producto = dlc.ID_Juego_Base
+                WHERE c.ID_Usuario_FK = i.ID_Usuario_FK AND c.ID_Producto_FK = dlc.ID_Juego_Base_FK
 
             )
 

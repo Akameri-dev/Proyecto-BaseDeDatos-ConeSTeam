@@ -2,7 +2,7 @@
 USE master;
 GO
 
--- 2. Eliminar la base de datos si ya existe para recrearla completamente limpia
+-- 2. Eliminar la base de datos si ya existe para recrearla completamente limpiaz
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ConeSTeamDB')
 BEGIN
     ALTER DATABASE ConeSTeamDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
@@ -440,6 +440,11 @@ ALTER TABLE Resena
 ADD CONSTRAINT FK_Resena_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(Id_Usuario);
+
+ALTER TABLE Resena
+ADD CONSTRAINT FK_Resena_ID_Producto
+FOREIGN KEY (ID_Producto_FK)
+REFERENCES Producto_Digital(ID_Producto);
 
 
 /* =========================================
