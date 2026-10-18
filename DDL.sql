@@ -1,5 +1,25 @@
-/* TABLAS
-*/
+-- 1. Forzar al servidor a usar master para liberar la BD si está en uso
+USE master;
+GO
+
+-- 2. Eliminar la base de datos si ya existe para recrearla completamente limpia
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'ConeSTeamDB')
+BEGIN
+    ALTER DATABASE ConeSTeamDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE ConeSTeamDB;
+END
+GO
+
+CREATE DATABASE ConeSTeamDB;
+GO
+
+USE ConeSTeamDB;
+GO
+
+/* =========================================
+   CREACIÓN DE TABLAS
+========================================= */
+
  CREATE TABLE Empresa_Corporativa (
     ID_Empresa INT IDENTITY(1,1) PRIMARY KEY,
     Nombre VARCHAR(30),
@@ -10,7 +30,7 @@
 
  CREATE TABLE Producto_Digital (
     ID_Producto INT IDENTITY(1,1) PRIMARY KEY,
-    Titulo VARCHAR(50),
+    Titulo VARCHAR(70),
     Descripcion_Corta VARCHAR(150),
     Descripcion_Larga VARCHAR(300),
     Fecha_Lanzamiento DATE,
@@ -19,9 +39,7 @@
     Precio_Base_Actual DECIMAL(10, 2), 
     Tipo_Producto VARCHAR(50),
     Metacritic_Score INTEGER, 
-
-    );
-
+ );
 
  CREATE TABLE Galeria_Multimedia (
     ID_Multimedia INT IDENTITY(1, 1),
@@ -29,7 +47,7 @@
     Tipo_Archivo VARCHAR(5), 
     ID_Producto_FK INTEGER,
     PRIMARY KEY(ID_Producto_FK, ID_Multimedia),
- )
+ );
 
  CREATE TABLE Juego_Base (
     Motor_Grafico VARCHAR(50),
@@ -40,14 +58,12 @@
     ID_Publisher_FK INTEGER,
  );
 
-
  CREATE TABLE DLC (
     Tipo_Contenido VARCHAR(50), 
     Subtipo_Jugable VARCHAR(50), 
     ID_Producto_FK INTEGER PRIMARY KEY,
     ID_Juego_Base_FK INTEGER NOT NULL,
  );
-
 
  CREATE TABLE Perfil_Requisito (
     Tipo_Perfil VARCHAR(50), 
@@ -97,7 +113,6 @@
  CREATE TABLE Etiqueta_Comunidad (
     Id_Etiqueta INT IDENTITY(1, 1) PRIMARY KEY,
     Nombre_Etiqueta VARCHAR(50),
-
  );
 
  CREATE TABLE Producto_Etiqueta (
@@ -107,14 +122,13 @@
     PRIMARY KEY (ID_Etiqueta_FK, ID_Producto_FK),
  );
 
- CREATE TABLE Mod (
-    ID_Mod INT IDENTITY(1, 1),
+CREATE TABLE Mod (
+    ID_Mod INT,
     Nombre_Mod VARCHAR(50),
     Descripcion_Mod VARCHAR(500),
     Tamano_MB DECIMAL(8, 2),
     ID_Producto_FK INTEGER NOT NULL,
-    PRIMARY KEY (ID_Mod, ID_Producto_FK),
-
+    PRIMARY KEY (ID_Producto_FK, ID_Mod),
  );
 
  CREATE TABLE Usuario (
@@ -128,13 +142,13 @@
     Estado_Cuenta VARCHAR(50), 
  );
 
- CREATE TABLE Amistad_Usuario (
-    Fecha_Amistad DATE,
-    Estado_Amistad VARCHAR(50), 
+CREATE TABLE Amistad_Usuario (
     ID_Usuario_Solicitante_FK INTEGER,
     ID_Usuario_Receptor_FK INTEGER,
-    PRIMARY KEY (ID_Usuario_Solicitante_FK, ID_Usuario_Receptor_FK),
- );
+    Fecha_Amistad DATE,
+    Estado_Amistad VARCHAR(50), 
+    PRIMARY KEY (ID_Usuario_Solicitante_FK, ID_Usuario_Receptor_FK)
+);
 
  CREATE TABLE Desbloqueo_Logro (
     Fecha_Desbloqueo DATE,
@@ -177,8 +191,6 @@
     ID_Producto_FK INTEGER,
  );
 
-
-
  CREATE TABLE Suscripcion_Mod (
     Fecha_Suscripcion DATE,
     ID_Usuario_FK INTEGER,
@@ -192,7 +204,6 @@
     Nombre_Metodo VARCHAR(50),
     Moneda VARCHAR(50),
     Requiere_Validacion BIT, 
-
  );
 
  CREATE TABLE Factura (
@@ -205,7 +216,6 @@
     Total_Pagado DECIMAL(10, 2),
     ID_Usuario_FK INTEGER NOT NULL,
     ID_Metodo_Pago_FK INTEGER NOT NULL,
-    
  );
 
  CREATE TABLE Detalle_Factura (
@@ -228,12 +238,10 @@
  CREATE TABLE Historial_Descuento (
     Fecha_Inicio DATE, 
     Fecha_Fin DATE,
-    Porcentaje_Descuento DECIMAL(3, 1), -- arreglar en otra rama de fix, en vez de ser (3, 1), que sea 3, 2 
+    Porcentaje_Descuento DECIMAL(5, 2),
     Nombre_Evento VARCHAR(50),
     ID_Producto_FK INTEGER,
     PRIMARY KEY (Fecha_Inicio, ID_Producto_FK),
-
-    
  );
 
  CREATE TABLE Registro_Concurrencia (
@@ -244,8 +252,9 @@
  );
 
 
-/*ADD FK
-*/
+/* =========================================
+   RESTRICCIONES DE LLAVES FORÁNEAS (FK)
+========================================= */
 
 ALTER TABLE Empresa_Corporativa
 ADD CONSTRAINT FK_Empresa_Corporativa_ID_Empresa_Matriz
@@ -268,7 +277,7 @@ FOREIGN KEY (ID_Estudio_Dev_FK)
 REFERENCES Empresa_Corporativa(ID_Empresa);
 
 ALTER TABLE Juego_Base
-ADD CONSTRAINT  FK_Juego_Base_ID_Publisher
+ADD CONSTRAINT FK_Juego_Base_ID_Publisher
 FOREIGN KEY (ID_Publisher_FK)
 REFERENCES Empresa_Corporativa(ID_Empresa);
 
@@ -280,7 +289,7 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE DLC
 ADD CONSTRAINT FK_DLC_ID_Juego_Base
 FOREIGN KEY (ID_Juego_Base_FK)
-REFERENCES Juego_Base(ID_Producto);
+REFERENCES Juego_Base(ID_Producto_FK);
 
 ALTER TABLE Perfil_Requisito
 ADD CONSTRAINT FK_Perfil_Requisito_ID_Producto
@@ -290,12 +299,12 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE Logro
 ADD CONSTRAINT FK_Logro_ID_Juego_Base
 FOREIGN KEY (ID_Juego_Base_FK)
-REFERENCES Juego_Base(ID_Producto);
+REFERENCES Juego_Base(ID_Producto_FK);
 
 ALTER TABLE Juego_Categoria
 ADD CONSTRAINT FK_Juego_Categoria_ID_Producto
 FOREIGN KEY (ID_Producto_FK)
-REFERENCES Juego_Base(ID_Producto);
+REFERENCES Juego_Base(ID_Producto_FK);
 
 ALTER TABLE Juego_Categoria
 ADD CONSTRAINT FK_Juego_Categoria_ID_Categoria
@@ -320,42 +329,37 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE Producto_Etiqueta
 ADD CONSTRAINT FK_Producto_Etiqueta_ID_Etiqueta
 FOREIGN KEY (ID_Etiqueta_FK)
-REFERENCES Etiqueta_Comunidad(ID_Etiqueta);
+REFERENCES Etiqueta_Comunidad(Id_Etiqueta);
 
 ALTER TABLE Mod
 ADD CONSTRAINT FK_Mod_ID_Producto_Base
 FOREIGN KEY (ID_Producto_FK)
-REFERENCES Juego_Base(ID_Producto);
+REFERENCES Juego_Base(ID_Producto_FK);
 
 ALTER TABLE Amistad_Usuario
 ADD CONSTRAINT FK_Amistad_Usuario_ID_Usuario_Solicitante
 FOREIGN KEY (ID_Usuario_Solicitante_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Amistad_Usuario
 ADD CONSTRAINT FK_Amistad_Usuario_ID_Usuario_Receptor
 FOREIGN KEY (ID_Usuario_Receptor_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Desbloqueo_Logro
 ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
-REFERENCES Usuario(ID_Usuario);
-
-ALTER TABLE Desbloqueo_Logro
-ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Juego_Base
-FOREIGN KEY (ID_Producto_FK)
-REFERENCES Juego_Base(ID_Producto);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Desbloqueo_Logro
 ADD CONSTRAINT FK_Desbloqueo_Logro_ID_Logro
-FOREIGN KEY (ID_Logro_FK)
-REFERENCES Logro(ID_Logro);
+FOREIGN KEY (ID_Juego_Base_FK, ID_Logro_FK)
+REFERENCES Logro(ID_Juego_Base_FK, ID_Logro);
 
 ALTER TABLE Biblioteca
 ADD CONSTRAINT FK_Biblioteca_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Biblioteca
 ADD CONSTRAINT FK_Biblioteca_ID_Producto
@@ -365,7 +369,7 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE Lista_Deseos
 ADD CONSTRAINT FK_Lista_Deseos_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Lista_Deseos
 ADD CONSTRAINT FK_Lista_Deseos_ID_Producto
@@ -375,7 +379,7 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE Carrito
 ADD CONSTRAINT FK_Carrito_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Carrito
 ADD CONSTRAINT FK_Carrito_ID_Producto
@@ -385,12 +389,12 @@ REFERENCES Producto_Digital(ID_Producto);
 ALTER TABLE Suscripcion_Mod
 ADD CONSTRAINT FK_Suscripcion_Mod_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
-REFERENCES Usuario(ID_Usuario);
+REFERENCES Usuario(Id_Usuario);
 
 ALTER TABLE Suscripcion_Mod
-ADD CONSTRAINT FK_Suscripcion_Mod_ID_Producto_Base
-FOREIGN KEY (ID_Producto_FK)
-REFERENCES Juego_Base(ID_Producto);
+ADD CONSTRAINT FK_Suscripcion_Mod_Mod
+FOREIGN KEY (ID_Producto_Base_FK, ID_Mod_FK)
+REFERENCES Mod(ID_Producto_FK, ID_Mod);
 
 ALTER TABLE Detalle_Factura
 ADD CONSTRAINT FK_Detalle_Factura_ID_Producto
@@ -437,12 +441,10 @@ ADD CONSTRAINT FK_Resena_ID_Usuario
 FOREIGN KEY (ID_Usuario_FK)
 REFERENCES Usuario(Id_Usuario);
 
-ALTER TABLE Resena
-ADD CONSTRAINT FK_Resena_ID_Metodo_Pago
-FOREIGN KEY (ID_Metodo_Pago_FK)
-REFERENCES Metodo_Pago(ID_Metodo_Pago);
 
-/*ADD CHECK*/
+/* =========================================
+   RESTRICCIONES CHECK
+========================================= */
 
 ALTER TABLE Producto_Digital 
 ADD CONSTRAINT CHK_Precio_Base CHECK (Precio_Base_Actual >= 0);
@@ -496,15 +498,13 @@ ADD CONSTRAINT CHK_EDO CHECK (Estado_Cuenta IN ('Activa', 'Suspendida', 'Baneada
 ALTER TABLE Amistad_Usuario
 ADD CONSTRAINT CHK_EDOAmistad CHECK (Estado_Amistad IN ('Pendiente', 'Aceptada', 'Bloqueada'));
 
- ALTER TABLE Resena 
- ADD CONSTRAINT CHK_Resena CHECK ((Calificacion_1_10 >= 1) AND (Calificacion_1_10 <= 10));
+ALTER TABLE Resena 
+ADD CONSTRAINT CHK_Resena CHECK ((Calificacion_1_10 >= 1) AND (Calificacion_1_10 <= 10));
 
 ALTER TABLE Historial_Descuento
-ADD CONSTRAINT CHK_Porcentaje CHECK (Porcentaje_Descuento >=0 AND Porcentaje_Descuento <= 100); 
+ADD CONSTRAINT CHK_Porcentaje CHECK (Porcentaje_Descuento >= 0 AND Porcentaje_Descuento <= 100); 
 
 ALTER TABLE Historial_Descuento
 ADD CONSTRAINT CHK_Fechas_Descuento CHECK (Fecha_Fin >= Fecha_Inicio);
-
-# checar si no falta alguna tabla
 
  

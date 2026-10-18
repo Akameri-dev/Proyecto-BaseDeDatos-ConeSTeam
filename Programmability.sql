@@ -1,3 +1,6 @@
+USE ConeSTeamDB;
+GO
+
 /*ADD SP
 */
 
@@ -89,7 +92,7 @@ CREATE FUNCTION fn_calcular_reputacion(@ID_Producto INT)
         -- obtener promedio
         SELECT @promedio_calificacion = ISNULL(SUM(r.Calificacion_1_10 * 1.0) / NULLIF(COUNT(r.ID_Usuario), 0), 0)
         FROM Resena r 
-        WHERE @Id_Producto = r.ID_Producto
+        WHERE @Id_Producto = r.ID_Producto_FK
 
         -- obtener puntaje metacritic
         SELECT @puntaje_metacritic = ISNULL(pd.Metacritic_Score, 0)
@@ -98,9 +101,9 @@ CREATE FUNCTION fn_calcular_reputacion(@ID_Producto INT)
 
         -- obtener total jugadores
 
-        SELECT @total_jugadores = COUNT(b.ID_Usuario)
+        SELECT @total_jugadores = COUNT(b.ID_Usuario_FK)
         FROM Biblioteca b
-        WHERE b.ID_Producto = @ID_Producto
+        WHERE b.ID_Producto_FK = @ID_Producto
 
         -- calculo de formula
         -- tiene tope en 100, deberiamos revisar en la practica, de mientras voy a obligar que si pasa de ese valor, lo forzaremos a 100
@@ -125,7 +128,7 @@ CREATE FUNCTION fn_calcular_horas_totales_usuario(@ID_Usuario INT)
         -- observamos si el wey no tiene productos en biblioteca con el isnull 
         SELECT @horas_totales = ISNULL(SUM(b.Horas_Jugadas),0.0)
         FROM Biblioteca b
-        WHERE @ID_Usuario = b.ID_Usuario
+        WHERE @ID_Usuario = b.ID_Usuario_FK
 
         RETURN @horas_totales
     END;
