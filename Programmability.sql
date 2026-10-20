@@ -1,12 +1,6 @@
 USE ConeSTeamDB;
 GO
 
-/*ADD SP
-*/
-
-
-
-
 /*ADD FUNC
 */
 CREATE FUNCTION fn_calcular_impuesto(@monto DECIMAL(10, 2))
