@@ -106,6 +106,7 @@ INSERT INTO Empresa_Corporativa (ID_Empresa, Nombre, Pais_Origen, Fecha_Fundacio
  (9,  'Tencent Holdings',           'China',          '1998-11-11', NULL),
  (10, 'Square Enix Holdings',       'Japón',          '1975-09-22', NULL),
 
+
  -- 11 a 40: Subsidiarias u otras empresas (al menos 8 con su ID_Empresa_Matriz_FK asignada a una matriz de arriba)
  (11, 'Valve Software Dev',         'Estados Unidos', '1996-08-24', 1),   -- Subsidiaria de Valve (1)
  (12, 'BioWare',                    'Canadá',         '1995-02-01', 2),   -- Subsidiaria de EA (2)
@@ -136,7 +137,8 @@ INSERT INTO Empresa_Corporativa (ID_Empresa, Nombre, Pais_Origen, Fecha_Fundacio
  (37, 'Arkane Studios',             'Francia',        '1999-10-01', 4),   -- Subsidiaria de Microsoft (4)
  (38, 'Sucker Punch Productions',   'Estados Unidos', '1997-10-01', 3),   -- Subsidiaria de Sony (3)
  (39, 'PlatinumGames',              'Japón',          '2006-08-01', NULL),
- (40, 'Supergiant Games',           'Estados Unidos', '2009-09-01', NULL);
+ (40, 'Supergiant Games',           'Estados Unidos', '2009-09-01', NULL),
+ (41,'Electronic Arts', 'Estados Unidos', '1982-05-27', NULL);
 SET IDENTITY_INSERT Empresa_Corporativa OFF;
 
 GO
@@ -454,9 +456,25 @@ INSERT INTO Producto_Digital (ID_Producto, Titulo, Descripcion_Corta, Descripcio
  (297, 'Dishonored: The Brigmore Witches', 'El desenlace de la historia de Daud.', 'Enfréntate al aquelarre de brujas liderado por Delilah para evitar un golpe de estado.', '2013-08-13', 3.00, 'M', 9.99, 'DLC', 85),
  (298, 'Sniper Elite 5: Landing Force Mission', 'Misión en una isla de la costa sur de Francia.', 'Infíltrate en una base de cañones costeros nazis para asegurar el desembarco.', '2022-07-05', 4.00, 'M', 14.99, 'DLC', 76),
  (299, 'Hitman: Seven Deadly Sins Act 1 Greed', 'Desafío temático basado en el pecado de la avaricia.', 'Supera los contratos de escalada en Dubái para desbloquear el traje codicioso.', '2021-03-30', 2.00, 'M', 4.99, 'DLC', 72),
- (300, 'Hunt Showdown: Legends of the Bayou', 'Cuatro cazadores legendarios y armas exclusivas.', 'Suma a las filas de cazadores a la Médica de la Plaga y al Errante del pantano.', '2019-08-27', 1.00, 'M', 9.99, 'DLC', 80);
-
-SET IDENTITY_INSERT Producto_Digital OFF;
+ (300, 'Hunt Showdown: Legends of the Bayou', 'Cuatro cazadores legendarios y armas exclusivas.', 'Suma a las filas de cazadores a la Médica de la Plaga y al Errante del pantano.', '2019-08-27', 1.00, 'M', 9.99, 'DLC', 80),
+ (301, 'Los Sims 4', 'Crea y controla a tus propios Sims.', 'El popular simulador de vida donde puedes construir casas, crear personajes y controlar sus vidas diarias, sus relaciones y sus carreras.', '2014-09-02', 25.50, 'T', 0.00, 'Juego_Base', 70),
+ (302, 'Los Sims 4: Vida en el Pueblo', 'Disfruta de la tranquilidad rural.', 'Añade un nuevo mundo rural con granjas, animales, cultivos y una comunidad muy unida.', '2025-03-15', 5.20, 'T', 19.99, 'DLC', 75),
+ (303, 'Los Sims 4: Aventura Espacial', 'Explora el espacio exterior.', 'Tus Sims podrán viajar a diferentes planetas, construir bases espaciales e interactuar con aliens.', '2025-08-20', 6.80, 'T', 19.99, 'DLC', 68),
+ (304, 'Los Sims 4: Moda de Alta Costura', 'Conviértete en un icono de la moda.', 'Incluye una nueva carrera como diseñador, pasarelas, ropa exclusiva y peinados nuevos.', '2025-11-10', 3.10, 'T', 9.99, 'DLC', 60),
+ (305, 'Los Sims 4: Vida Submarina', 'Explora las profundidades del océano.', 'Añade la posibilidad de convertirse en sirenas, construir casas bajo el agua y nadar con delfines.', '2026-02-14', 7.50, 'T', 19.99, 'DLC', 80),
+ (306, 'Los Sims 4: Fiesta en la Playa', 'Organiza las mejores fiestas.', 'Incluye nuevos objetos para exteriores, ropa de baño, música tropical y la habilidad de surfear.', '2026-05-01', 2.50, 'T', 4.99, 'DLC', 55),
+ (307, 'Los Sims 4: Escuela de Magia', 'Aprende hechizos y pociones.', 'Tus Sims podrán asistir a una escuela de magia, aprender hechicería y crear pociones.', '2026-09-30', 8.00, 'T', 19.99, 'DLC', 72),
+ (308, 'Los Sims 4: Vida de Lujo', 'Vive como un millonario.', 'Añade yates, autos deportivos, joyas costosas y un nuevo mundo exclusivo.', '2026-10-15', 4.00, 'T', 9.99, 'DLC', 62),
+ (309, 'Overcooked', 'Cocina cooperativa caótica.', 'Un juego de cocina donde debes preparar platos con amigos en cocinas muy peligrosas.', '2016-08-03', 2.50, 'E', 14.99, 'Juego_Base', 80),
+ (310, 'Cyber Rogue 2077', 'Acción y hackeo en el futuro.', 'Un juego de acción cyberpunk con toques de rogue-lite y mucho parkour.', '2026-02-15', 45.00, 'T', 39.99, 'Juego_Base', 85),
+ (311, 'Mystic Farming', 'Granja y magia.', 'Simulador de granja donde cultivas plantas mágicas y haces amigos en un pueblo.', '2026-04-10', 12.50, 'E', 19.99, 'Juego_Base', 78),
+ (312, 'Galactic Strategy', 'Conquista la galaxia.', 'Juego de estrategia en tiempo real por turnos con naves espaciales.', '2026-06-20', 60.00, 'T', 49.99, 'Juego_Base', 82),
+ (313, 'Shadow Ninja 2D', 'Plataformas y sigilo.', 'Un juego indie de plataformas 2D pixel art con mecánicas de sigilo y combate rápido.', '2026-08-05', 3.20, 'T', 14.99, 'Juego_Base', 88),
+ (314, 'Zombie Survival Coop', 'Sobrevive con amigos.', 'Juego de terror y supervivencia cooperativa en un mundo post-apocalíptico.', '2026-09-12', 30.00, 'M', 29.99, 'Juego_Base', 75),
+ (315, 'Minecraft Dungeons', 'Spin-off de acción y mazmorras.', 'Explora mazmorras, lucha contra mobs y encuentra tesoros en este juego de rol de acción.', '2026-02-01', 5.00, 'E', 15.00, 'Juego_Base', 80),
+ (316, 'Starfield', 'RPG de exploración espacial.', 'Explora la galaxia, construye naves y descubre planetas en este RPG de ciencia ficción.', '2026-03-01', 50.00, 'T', 40.00, 'Juego_Base', 85),
+ (317, 'Uncharted 5', 'Aventura de acción.', 'Explora ruinas y busca tesoros.', '2026-04-01', 100.00, 'T', 60.00, 'Juego_Base', 92);
+ SET IDENTITY_INSERT Producto_Digital OFF;
 
 
 /* ------------------------------- 2. Juego_Base ------------------------------- */
@@ -470,7 +488,11 @@ INSERT INTO Juego_Base (Motor_Grafico, Tiene_Compras_InGame, Soporta_Cloud_Saves
  ('Source 2', 0, 1, 6, 3, 3),
  ('RAGE', 1, 1, 7, 4, 4),
  ('Custom Engine', 0, 1, 8, 5, 5),
- ('Bedrock Engine', 1, 1, 9, 6, 6),
+
+ ('Unreal Engine', 1, 1, 315, 16, 4),
+ ('Bedrock Engine', 1, 1, 9, 16, 4),
+ ('Creation Engine 2', 0, 1, 316, 31, 4),
+
  ('Divinity Engine 4', 0, 1, 10, 7, 7),
  ('Custom Engine', 0, 1, 11, 8, 8),
  ('RAGE', 0, 1, 12, 4, 4),
@@ -671,7 +693,10 @@ INSERT INTO Juego_Base (Motor_Grafico, Tiene_Compras_InGame, Soporta_Cloud_Saves
  ('Dagor Engine', 1, 1, 207, 40, 40),
  ('Dagor Engine', 1, 1, 208, 40, 40),
  ('Custom Engine', 1, 1, 209, 40, 40),
- ('Custom Engine', 1, 1, 210, 40, 40);
+ ('Custom Engine', 1, 1, 210, 40, 40),
+ ('Custom Engine', 1, 1, 301, 41, 41),
+ ('Unity', 0, 0, 309, 15, 15),
+ ('Naughty Engine', 1, 1, 317, 14, 3);;
 
 /* ---------------------------------- 3. DLC ----------------------------------- */
 INSERT INTO DLC (Tipo_Contenido, Subtipo_Jugable, ID_Producto_FK, ID_Juego_Base_FK) VALUES
@@ -764,7 +789,15 @@ INSERT INTO DLC (Tipo_Contenido, Subtipo_Jugable, ID_Producto_FK, ID_Juego_Base_
  ('Jugable', 'Mapa', 297, 177),
  ('Jugable', 'Mapa', 298, 195),
  ('Jugable', 'Mapa', 299, 196),
- ('Jugable', 'Personaje', 300, 203);
+ ('Jugable', 'Personaje', 300, 203),
+ ('Jugable', 'Mapa', 302, 301),
+ ('Jugable', 'Mapa', 303, 301),
+ ('Jugable', 'Cosmetico', 304, 301),
+ ('Jugable', 'Modo_Juego', 305, 301),
+ ('Jugable', 'Modo_Juego', 306, 301),
+ ('Jugable', 'Mapa', 307, 301),
+ ('Banda_Sonora', NULL, 308, 301);
+
 
 /* ---------------------------- 4. Perfil_Requisito ---------------------------- */
 -- Cada juego base debe tener sus perfiles 'Minimo' y 'Recomendado'
@@ -1194,10 +1227,7 @@ INSERT INTO DLC (Tipo_Contenido, Subtipo_Jugable, ID_Producto_FK, ID_Juego_Base_
 
 
 
- /* =====================================================================
-   BLOQUE 4: Soportes de Idioma, Logros y Galerías Multimedia
-   Adaptado a los atributos reales de tu DDL.sql
-   ===================================================================== */
+
 
 /* ------------------------- 1. Soporte_Idioma ------------------------- */
  INSERT INTO Soporte_Idioma (Soporta_Interfaz, Soporta_Audio, Soporta_Subtitulos, ID_Producto_FK, ID_Idioma_FK) VALUES
@@ -2874,8 +2904,13 @@ INSERT INTO DLC (Tipo_Contenido, Subtipo_Jugable, ID_Producto_FK, ID_Juego_Base_
 (2, 'Superviviente', 'Supera el primer gran desafío del juego.', 0, 210),
 (3, 'Coleccionista', 'Encuentra elementos ocultos en el mapa.', 0, 210),
 (4, 'Maestro Táctico', 'Derrota a un enemigo elite sin recibir daño.', 1, 210),
-(5, 'Leyenda', 'Completa la campaña principal.', 1, 210);
+(5, 'Leyenda', 'Completa la campaña principal.', 1, 210),
 
+(1, 'Primer Pedido', 'Completa el primer nivel.', 0, 309),
+(2, 'Cocinero Estrella', 'Consigue 3 estrellas en 5 niveles.', 0, 309),
+(3, 'Sin Quemaduras', 'Termina un nivel sin que se queme nada.', 1, 309),
+(4, 'Maestro de la Cuchilla', 'Corta 100 ingredientes.', 0, 309),
+(5, 'Rey de la Cocina', 'Completa el juego al 100%.', 0, 309);
 
 /* -------------------------- Galeria_Multimedia -------------------------- */
  INSERT INTO Galeria_Multimedia (URL_Archivo, Tipo_Archivo, ID_Producto_FK) VALUES
@@ -3432,7 +3467,33 @@ SET IDENTITY_INSERT Etiqueta_Comunidad OFF;
 
 -- Juego 5 (Usa etiquetas 41 a 50)
 (5, 41, 1670), (5, 42, 1230), (5, 43, 540), (5, 44, 890), (5, 45, 2450),
-(5, 46, 610), (5, 47, 480), (5, 48, 750), (5, 49, 1340), (5, 50, 1560);
+(5, 46, 610), (5, 47, 480), (5, 48, 750), (5, 49, 1340), (5, 50, 1560),
+
+(310, 1, 500),   -- Acción (500 votos)
+(310, 3, 150),   -- RPG (150 votos)
+(310, 8, 300),   -- Indie (300 votos)
+
+-- Juego 311 (Mystic Farming)
+(311, 5, 200),   -- Simulación (200 votos)
+(311, 9, 400),   -- Casual (400 votos)
+(311, 12, 100),  -- Cooperativo (100 votos)
+
+-- Juego 312 (Galactic Strategy)
+(312, 4, 600),   -- Estrategia (600 votos)
+(312, 28, 250),  -- Ciencia Ficción (250 votos)
+
+-- Juego 313 (Shadow Ninja 2D)
+(313, 8, 800),   -- Indie (800 votos - Sumará 300 del juego 310 = 1100 total)
+(313, 17, 300),  -- Plataformas (300 votos)
+(313, 39, 450),  -- Pixel Art (450 votos)
+(313, 24, 100),  -- Sigilo (100 votos)
+
+-- Juego 314 (Zombie Survival Coop)
+(314, 15, 1900),  -- Terror (900 votos)
+(314, 12, 700),  -- Cooperativo (700 votos - Sumará 100 del juego 311 = 800 total)
+(314, 1, 400),   -- Acción (400 votos - Sumará 500 del juego 310 = 900 total)
+(314, 14, 350),  -- Supervivencia (350 votos)
+(314, 10, 200);  -- Multijugador (200 votos)
 
 
 /* ------------------------- 3. Juego_Categoria ------------------------- */
@@ -3709,6 +3770,10 @@ INSERT INTO Usuario (Id_Usuario, Nickname, Correo, Contrasena_Hash, Fecha_Nacimi
 -- Relaciona solicitudes de amistad entre usuarios con sus respectivos estados
  INSERT INTO Amistad_Usuario (ID_Usuario_Solicitante_FK, ID_Usuario_Receptor_FK, Fecha_Amistad, Estado_Amistad) VALUES
 
+
+(2, 1, '2024-10-21', 'Aceptada'), (3, 1, '2024-10-21', 'Aceptada'), (3, 2, '2024-10-21', 'Aceptada'),
+
+
 (1, 2, '2024-10-21', 'Aceptada'), (1, 3, '2024-11-05', 'Aceptada'), (1, 4, '2024-11-12', 'Aceptada'), (1, 10, '2025-01-02', 'Aceptada'),
 (2, 3, '2024-11-03', 'Aceptada'), (2, 5, '2024-12-02', 'Pendiente'), (2, 11, '2025-01-15', 'Aceptada'),
 (3, 6, '2024-12-15', 'Aceptada'), (3, 7, '2025-01-08', 'Pendiente'), (3, 12, '2025-02-01', 'Aceptada'),
@@ -3853,6 +3918,9 @@ INSERT INTO Usuario (Id_Usuario, Nickname, Correo, Contrasena_Hash, Fecha_Nacimi
 -- Juegos que poseen los usuarios en su biblioteca digital
 
 INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) VALUES
+(13, '2026-05-11', 1, 309 ),
+(13, '2026-05-11', 2, 309 ),
+(13, '2026-05-11', 3, 309 ),
 (13, '2026-05-11', 251, 2 ),
 (11, '2026-05-14', 252, 1 ),
 (120, '2026-05-10', 1, 1),  
@@ -3868,9 +3936,29 @@ INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Pr
 (500, '2026-10-01', 4, 9),   
 (65,  '2026-08-20', 5, 10),  
 (90,  '2026-09-05', 6, 11), 
-(300, '2026-10-05', 7, 12);  
+(300, '2026-10-05', 7, 12), 
+(150, '2026-10-15', 1, 301),
+(45,  '2026-10-10', 2, 301),
+(320, '2026-10-17', 3, 301),
+(12,  '2026-09-28', 4, 301),
+(88,  '2026-10-16', 5, 301),
+(210, '2026-10-01', 6, 301),
+(5,   '2026-08-20', 7, 301);
 
+INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) 
+VALUES (50, '2026-10-01', 4, 310); 
 
+INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) 
+VALUES (20, '2026-10-02', 6, 311); 
+
+INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) 
+VALUES (80, '2026-10-03', 9, 312); 
+
+INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) 
+VALUES (10, '2026-10-04', 13, 313); 
+
+INSERT INTO Biblioteca (Horas_Jugadas, Fecha_Ultima_Sesion, ID_Usuario_FK, ID_Producto_FK) 
+VALUES (100, '2026-10-05', 20, 314); 
 /* --------------------------- 2. Lista_Deseos ------------------------- */
 
 INSERT INTO Lista_Deseos (Fecha_Agregado, Notificar_Descuento, ID_Usuario_FK, ID_Producto_FK)
@@ -4446,7 +4534,121 @@ INSERT INTO Factura (ID_Factura, Codigo_Transaccion, Fecha_Hora_Emision, Sub_Tot
 (497, 98497, '2026-07-17 18:00:00', 89.99, 20.00, 11.20, 81.19, 247, 2),
 (498, 98498, '2026-07-30 19:15:00', 19.99, 0.00, 3.20, 23.19, 248, 3),
 (499, 98499, '2026-08-12 20:30:00', 59.99, 10.00, 8.00, 57.99, 249, 1),
-(500, 98500, '2026-08-25 21:45:00', 129.97, 40.00, 14.40, 104.37, 250, 5);
+(500, 98500, '2026-08-25 21:45:00', 129.97, 40.00, 14.40, 104.37, 250, 5),
+(501, 98501, '2026-10-01 10:00:00', 104.93, 0.00, 0.00, 104.93, 1, 1),
+(502, 98502, '2026-10-02 15:30:00', 74.95, 0.00, 0.00, 74.95, 2, 1),
+(601, 98601, '2026-10-20 10:00:00', 40.00, 0.00, 0.00, 40.00, 8, 1),
+(602, 98602, '2026-10-21 15:30:00', 40.00, 0.00, 0.00, 40.00, 9, 1),
+(603, 98603, '2026-10-25 10:00:00', 120.00, 0.00, 0.00, 120.00, 10, 1),
+(604, 98604, '2026-10-26 11:00:00', 60.00, 0.00, 0.00, 60.00, 11, 1);
+
+INSERT INTO Factura (ID_Factura, Codigo_Transaccion, Fecha_Hora_Emision, Sub_Total, Monto_Descuento, Monto_Impuesto, Total_Pagado, ID_Usuario_FK, ID_Metodo_Pago_FK) VALUES
+-- 51 Facturas para el Producto 36 (IDs 1001 a 1051)
+(1001, '99001', '2026-01-01 10:00:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+(1002, '99002', '2026-01-02 10:15:00', 59.99, 0.00, 0.00, 59.99, 2, 1),
+(1003, '99003', '2026-01-03 10:30:00', 59.99, 0.00, 0.00, 59.99, 3, 1),
+(1004, '99004', '2026-01-04 10:45:00', 59.99, 0.00, 0.00, 59.99, 4, 1),
+(1005, '99005', '2026-01-05 11:00:00', 59.99, 0.00, 0.00, 59.99, 5, 1),
+(1006, '99006', '2026-01-06 11:15:00', 59.99, 0.00, 0.00, 59.99, 6, 1),
+(1007, '99007', '2026-01-07 11:30:00', 59.99, 0.00, 0.00, 59.99, 7, 1),
+(1008, '99008', '2026-01-08 11:45:00', 59.99, 0.00, 0.00, 59.99, 8, 1),
+(1009, '99009', '2026-01-09 12:00:00', 59.99, 0.00, 0.00, 59.99, 9, 1),
+(1010, '99010', '2026-01-10 12:15:00', 59.99, 0.00, 0.00, 59.99, 10, 1),
+(1011, '99011', '2026-01-11 12:30:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+(1012, '99012', '2026-01-12 12:45:00', 59.99, 0.00, 0.00, 59.99, 2, 1),
+(1013, '99013', '2026-01-13 13:00:00', 59.99, 0.00, 0.00, 59.99, 3, 1),
+(1014, '99014', '2026-01-14 13:15:00', 59.99, 0.00, 0.00, 59.99, 4, 1),
+(1015, '99015', '2026-01-15 13:30:00', 59.99, 0.00, 0.00, 59.99, 5, 1),
+(1016, '99016', '2026-01-16 13:45:00', 59.99, 0.00, 0.00, 59.99, 6, 1),
+(1017, '99017', '2026-01-17 14:00:00', 59.99, 0.00, 0.00, 59.99, 7, 1),
+(1018, '99018', '2026-01-18 14:15:00', 59.99, 0.00, 0.00, 59.99, 8, 1),
+(1019, '99019', '2026-01-19 14:30:00', 59.99, 0.00, 0.00, 59.99, 9, 1),
+(1020, '99020', '2026-01-20 14:45:00', 59.99, 0.00, 0.00, 59.99, 10, 1),
+(1021, '99021', '2026-01-21 15:00:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+(1022, '99022', '2026-01-22 15:15:00', 59.99, 0.00, 0.00, 59.99, 2, 1),
+(1023, '99023', '2026-01-23 15:30:00', 59.99, 0.00, 0.00, 59.99, 3, 1),
+(1024, '99024', '2026-01-24 15:45:00', 59.99, 0.00, 0.00, 59.99, 4, 1),
+(1025, '99025', '2026-01-25 16:00:00', 59.99, 0.00, 0.00, 59.99, 5, 1),
+(1026, '99026', '2026-01-26 16:15:00', 59.99, 0.00, 0.00, 59.99, 6, 1),
+(1027, '99027', '2026-01-27 16:30:00', 59.99, 0.00, 0.00, 59.99, 7, 1),
+(1028, '99028', '2026-01-28 16:45:00', 59.99, 0.00, 0.00, 59.99, 8, 1),
+(1029, '99029', '2026-01-29 17:00:00', 59.99, 0.00, 0.00, 59.99, 9, 1),
+(1030, '99030', '2026-01-30 17:15:00', 59.99, 0.00, 0.00, 59.99, 10, 1),
+(1031, '99031', '2026-01-31 17:30:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+(1032, '99032', '2026-02-01 17:45:00', 59.99, 0.00, 0.00, 59.99, 2, 1),
+(1033, '99033', '2026-02-02 18:00:00', 59.99, 0.00, 0.00, 59.99, 3, 1),
+(1034, '99034', '2026-02-03 18:15:00', 59.99, 0.00, 0.00, 59.99, 4, 1),
+(1035, '99035', '2026-02-04 18:30:00', 59.99, 0.00, 0.00, 59.99, 5, 1),
+(1036, '99036', '2026-02-05 18:45:00', 59.99, 0.00, 0.00, 59.99, 6, 1),
+(1037, '99037', '2026-02-06 19:00:00', 59.99, 0.00, 0.00, 59.99, 7, 1),
+(1038, '99038', '2026-02-07 19:15:00', 59.99, 0.00, 0.00, 59.99, 8, 1),
+(1039, '99039', '2026-02-08 19:30:00', 59.99, 0.00, 0.00, 59.99, 9, 1),
+(1040, '99040', '2026-02-09 19:45:00', 59.99, 0.00, 0.00, 59.99, 10, 1),
+(1041, '99041', '2026-02-10 20:00:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+(1042, '99042', '2026-02-11 20:15:00', 59.99, 0.00, 0.00, 59.99, 2, 1),
+(1043, '99043', '2026-02-12 20:30:00', 59.99, 0.00, 0.00, 59.99, 3, 1),
+(1044, '99044', '2026-02-13 20:45:00', 59.99, 0.00, 0.00, 59.99, 4, 1),
+(1045, '99045', '2026-02-14 21:00:00', 59.99, 0.00, 0.00, 59.99, 5, 1),
+(1046, '99046', '2026-02-15 21:15:00', 59.99, 0.00, 0.00, 59.99, 6, 1),
+(1047, '99047', '2026-02-16 21:30:00', 59.99, 0.00, 0.00, 59.99, 7, 1),
+(1048, '99048', '2026-02-17 21:45:00', 59.99, 0.00, 0.00, 59.99, 8, 1),
+(1049, '99049', '2026-02-18 22:00:00', 59.99, 0.00, 0.00, 59.99, 9, 1),
+(1050, '99050', '2026-02-19 22:15:00', 59.99, 0.00, 0.00, 59.99, 10, 1),
+(1051, '99051', '2026-02-20 22:30:00', 59.99, 0.00, 0.00, 59.99, 1, 1),
+
+-- 51 Facturas para el Producto 88 (IDs 1052 a 1102)
+(1052, '99052', '2026-03-01 10:00:00', 69.99, 0.00, 0.00, 69.99, 1, 1),
+(1053, '99053', '2026-03-02 10:15:00', 69.99, 0.00, 0.00, 69.99, 2, 1),
+(1054, '99054', '2026-03-03 10:30:00', 69.99, 0.00, 0.00, 69.99, 3, 1),
+(1055, '99055', '2026-03-04 10:45:00', 69.99, 0.00, 0.00, 69.99, 4, 1),
+(1056, '99056', '2026-03-05 11:00:00', 69.99, 0.00, 0.00, 69.99, 5, 1),
+(1057, '99057', '2026-03-06 11:15:00', 69.99, 0.00, 0.00, 69.99, 6, 1),
+(1058, '99058', '2026-03-07 11:30:00', 69.99, 0.00, 0.00, 69.99, 7, 1),
+(1059, '99059', '2026-03-08 11:45:00', 69.99, 0.00, 0.00, 69.99, 8, 1),
+(1060, '99060', '2026-03-09 12:00:00', 69.99, 0.00, 0.00, 69.99, 9, 1),
+(1061, '99061', '2026-03-10 12:15:00', 69.99, 0.00, 0.00, 69.99, 10, 1),
+(1062, '99062', '2026-03-11 12:30:00', 69.99, 0.00, 0.00, 69.99, 1, 1),
+(1063, '99063', '2026-03-12 12:45:00', 69.99, 0.00, 0.00, 69.99, 2, 1),
+(1064, '99064', '2026-03-13 13:00:00', 69.99, 0.00, 0.00, 69.99, 3, 1),
+(1065, '99065', '2026-03-14 13:15:00', 69.99, 0.00, 0.00, 69.99, 4, 1),
+(1066, '99066', '2026-03-15 13:30:00', 69.99, 0.00, 0.00, 69.99, 5, 1),
+(1067, '99067', '2026-03-16 13:45:00', 69.99, 0.00, 0.00, 69.99, 6, 1),
+(1068, '99068', '2026-03-17 14:00:00', 69.99, 0.00, 0.00, 69.99, 7, 1),
+(1069, '99069', '2026-03-18 14:15:00', 69.99, 0.00, 0.00, 69.99, 8, 1),
+(1070, '99070', '2026-03-19 14:30:00', 69.99, 0.00, 0.00, 69.99, 9, 1),
+(1071, '99071', '2026-03-20 14:45:00', 69.99, 0.00, 0.00, 69.99, 10, 1),
+(1072, '99072', '2026-03-21 15:00:00', 69.99, 0.00, 0.00, 69.99, 1, 1),
+(1073, '99073', '2026-03-22 15:15:00', 69.99, 0.00, 0.00, 69.99, 2, 1),
+(1074, '99074', '2026-03-23 15:30:00', 69.99, 0.00, 0.00, 69.99, 3, 1),
+(1075, '99075', '2026-03-24 15:45:00', 69.99, 0.00, 0.00, 69.99, 4, 1),
+(1076, '99076', '2026-03-25 16:00:00', 69.99, 0.00, 0.00, 69.99, 5, 1),
+(1077, '99077', '2026-03-26 16:15:00', 69.99, 0.00, 0.00, 69.99, 6, 1),
+(1078, '99078', '2026-03-27 16:30:00', 69.99, 0.00, 0.00, 69.99, 7, 1),
+(1079, '99079', '2026-03-28 16:45:00', 69.99, 0.00, 0.00, 69.99, 8, 1),
+(1080, '99080', '2026-03-29 17:00:00', 69.99, 0.00, 0.00, 69.99, 9, 1),
+(1081, '99081', '2026-03-30 17:15:00', 69.99, 0.00, 0.00, 69.99, 10, 1),
+(1082, '99082', '2026-03-31 17:30:00', 69.99, 0.00, 0.00, 69.99, 1, 1),
+(1083, '99083', '2026-04-01 17:45:00', 69.99, 0.00, 0.00, 69.99, 2, 1),
+(1084, '99084', '2026-04-02 18:00:00', 69.99, 0.00, 0.00, 69.99, 3, 1),
+(1085, '99085', '2026-04-03 18:15:00', 69.99, 0.00, 0.00, 69.99, 4, 1),
+(1086, '99086', '2026-04-04 18:30:00', 69.99, 0.00, 0.00, 69.99, 5, 1),
+(1087, '99087', '2026-04-05 18:45:00', 69.99, 0.00, 0.00, 69.99, 6, 1),
+(1088, '99088', '2026-04-06 19:00:00', 69.99, 0.00, 0.00, 69.99, 7, 1),
+(1089, '99089', '2026-04-07 19:15:00', 69.99, 0.00, 0.00, 69.99, 8, 1),
+(1090, '99090', '2026-04-08 19:30:00', 69.99, 0.00, 0.00, 69.99, 9, 1),
+(1091, '99091', '2026-04-09 19:45:00', 69.99, 0.00, 0.00, 69.99, 10, 1),
+(1092, '99092', '2026-04-10 20:00:00', 69.99, 0.00, 0.00, 69.99, 1, 1),
+(1093, '99093', '2026-04-11 20:15:00', 69.99, 0.00, 0.00, 69.99, 2, 1),
+(1094, '99094', '2026-04-12 20:30:00', 69.99, 0.00, 0.00, 69.99, 3, 1),
+(1095, '99095', '2026-04-13 20:45:00', 69.99, 0.00, 0.00, 69.99, 4, 1),
+(1096, '99096', '2026-04-14 21:00:00', 69.99, 0.00, 0.00, 69.99, 5, 1),
+(1097, '99097', '2026-04-15 21:15:00', 69.99, 0.00, 0.00, 69.99, 6, 1),
+(1098, '99098', '2026-04-16 21:30:00', 69.99, 0.00, 0.00, 69.99, 7, 1),
+(1099, '99099', '2026-04-17 21:45:00', 69.99, 0.00, 0.00, 69.99, 8, 1),
+(1100, '99100', '2026-04-18 22:00:00', 69.99, 0.00, 0.00, 69.99, 9, 1),
+(1101, '99101', '2026-04-19 22:15:00', 69.99, 0.00, 0.00, 69.99, 10, 1),
+(1102, '99102', '2026-04-20 22:30:00', 69.99, 0.00, 0.00, 69.99, 1, 1);
+
 
 SET IDENTITY_INSERT Factura OFF;
 
@@ -5453,7 +5655,58 @@ INSERT INTO Detalle_Factura (Precio_Venta_Historico, Descuento_Aplicado_Pct, ID_
 -- Factura 499 (2 productos)
 (39.99, 10.00, 499, 73), (20.00, 0.00, 499, 176),
 -- Factura 500 (3 productos)
-(59.99, 20.00, 500, 27), (39.99, 10.00, 500, 89), (29.99, 20.00, 500, 206);
+(59.99, 20.00, 500, 27), (39.99, 10.00, 500, 89), (29.99, 20.00, 500, 206),
+
+(0.00, 0.00, 501, 301),  
+(19.99, 0.00, 501, 302),
+(19.99, 0.00, 501, 303),
+(9.99, 0.00, 501, 304),
+(19.99, 0.00, 501, 305),
+(4.99, 0.00, 501, 306),
+(19.99, 0.00, 501, 307),
+(9.99, 0.00, 501, 308),
+
+(0.00, 0.00, 502, 301), 
+(19.99, 0.00, 502, 302),
+(19.99, 0.00, 502, 303),
+(9.99, 0.00, 502, 304),
+(19.99, 0.00, 502, 305),
+(4.99, 0.00, 502, 306),
+(25.00, 0.00, 601, 9),   
+(15.00, 0.00, 601, 315),
+(40.00, 0.00, 602, 316),
+
+(60.00, 0.00, 603, 317),
+(60.00, 0.00, 604, 317);
+
+
+INSERT INTO Detalle_Factura (Precio_Venta_Historico, Descuento_Aplicado_Pct, ID_Factura_FK, ID_Producto_FK) VALUES
+-- 51 Detalles para Producto 36
+(59.99, 0, 1001, 36), (59.99, 0, 1002, 36), (59.99, 0, 1003, 36), (59.99, 0, 1004, 36), (59.99, 0, 1005, 36),
+(59.99, 0, 1006, 36), (59.99, 0, 1007, 36), (59.99, 0, 1008, 36), (59.99, 0, 1009, 36), (59.99, 0, 1010, 36),
+(59.99, 0, 1011, 36), (59.99, 0, 1012, 36), (59.99, 0, 1013, 36), (59.99, 0, 1014, 36), (59.99, 0, 1015, 36),
+(59.99, 0, 1016, 36), (59.99, 0, 1017, 36), (59.99, 0, 1018, 36), (59.99, 0, 1019, 36), (59.99, 0, 1020, 36),
+(59.99, 0, 1021, 36), (59.99, 0, 1022, 36), (59.99, 0, 1023, 36), (59.99, 0, 1024, 36), (59.99, 0, 1025, 36),
+(59.99, 0, 1026, 36), (59.99, 0, 1027, 36), (59.99, 0, 1028, 36), (59.99, 0, 1029, 36), (59.99, 0, 1030, 36),
+(59.99, 0, 1031, 36), (59.99, 0, 1032, 36), (59.99, 0, 1033, 36), (59.99, 0, 1034, 36), (59.99, 0, 1035, 36),
+(59.99, 0, 1036, 36), (59.99, 0, 1037, 36), (59.99, 0, 1038, 36), (59.99, 0, 1039, 36), (59.99, 0, 1040, 36),
+(59.99, 0, 1041, 36), (59.99, 0, 1042, 36), (59.99, 0, 1043, 36), (59.99, 0, 1044, 36), (59.99, 0, 1045, 36),
+(59.99, 0, 1046, 36), (59.99, 0, 1047, 36), (59.99, 0, 1048, 36), (59.99, 0, 1049, 36), (59.99, 0, 1050, 36),
+(59.99, 0, 1051, 36),
+
+-- 51 Detalles para Producto 88
+(69.99, 0, 1052, 88), (69.99, 0, 1053, 88), (69.99, 0, 1054, 88), (69.99, 0, 1055, 88), (69.99, 0, 1056, 88),
+(69.99, 0, 1057, 88), (69.99, 0, 1058, 88), (69.99, 0, 1059, 88), (69.99, 0, 1060, 88), (69.99, 0, 1061, 88),
+(69.99, 0, 1062, 88), (69.99, 0, 1063, 88), (69.99, 0, 1064, 88), (69.99, 0, 1065, 88), (69.99, 0, 1066, 88),
+(69.99, 0, 1067, 88), (69.99, 0, 1068, 88), (69.99, 0, 1069, 88), (69.99, 0, 1070, 88), (69.99, 0, 1071, 88),
+(69.99, 0, 1072, 88), (69.99, 0, 1073, 88), (69.99, 0, 1074, 88), (69.99, 0, 1075, 88), (69.99, 0, 1076, 88),
+(69.99, 0, 1077, 88), (69.99, 0, 1078, 88), (69.99, 0, 1079, 88), (69.99, 0, 1080, 88), (69.99, 0, 1081, 88),
+(69.99, 0, 1082, 88), (69.99, 0, 1083, 88), (69.99, 0, 1084, 88), (69.99, 0, 1085, 88), (69.99, 0, 1086, 88),
+(69.99, 0, 1087, 88), (69.99, 0, 1088, 88), (69.99, 0, 1089, 88), (69.99, 0, 1090, 88), (69.99, 0, 1091, 88),
+(69.99, 0, 1092, 88), (69.99, 0, 1093, 88), (69.99, 0, 1094, 88), (69.99, 0, 1095, 88), (69.99, 0, 1096, 88),
+(69.99, 0, 1097, 88), (69.99, 0, 1098, 88), (69.99, 0, 1099, 88), (69.99, 0, 1100, 88), (69.99, 0, 1101, 88),
+(69.99, 0, 1102, 88);
+
 
 
 /* ---------------------------- 3. Reembolso --------------------------- */
@@ -5490,7 +5743,12 @@ INSERT INTO Reembolso (ID_Reembolso, Fecha_Reembolso, Monto_Reembolsado, Motivo,
 (27, '2025-05-12', 49.99, 'El juego no funciona con el sistema operativo.', 27, 9),
 (28, '2025-05-20', 19.99, 'El usuario no tiene suficiente espacio en disco.', 28, 175),
 (29, '2025-05-28', 29.99, 'El juego tiene problemas de compatibilidad con mods.', 29, 43),
-(30, '2025-06-05', 49.99, 'El usuario no puede acceder al contenido adicional.', 30, 13);
+(30, '2025-06-05', 49.99, 'El usuario no puede acceder al contenido adicional.', 30, 13),
+(31, '2026-10-05', 9.99, 'El DLC no era compatible con mi mod', 501, 304),
+(41, '2026-10-22', 25.00, 'El juego no cumple con los requisitos mínimos', 601, 9),
+(42, '2026-10-23', 40.00, 'El juego tiene muchos bugs', 602, 316);
+
+
 
 SET IDENTITY_INSERT Reembolso OFF;
 
@@ -5578,7 +5836,11 @@ INSERT INTO Mod (ID_Producto_FK, ID_Mod, Nombre_Mod, Descripcion_Mod, Tamano_MB)
 -- ==================== Mods para Factorio (ID_Producto = 71) ====================
 (71, 1, 'Bob''s Mods', 'Conjunto de mods que expanden la industria y la logística.', 150.00),
 (71, 2, 'Angel''s Mods', 'Refinería y petroquímica avanzada con cadenas de producción.', 200.00),
-(71, 3, 'Space Exploration', 'Expansión espacial con múltiples planetas y logística interplanetaria.', 80.00);
+(71, 3, 'Space Exploration', 'Expansión espacial con múltiples planetas y logística interplanetaria.', 80.00),
+
+(301, 1, 'Sims 4: Mod de Embarazo Realista', 'Añade un sistema completo de embarazo con ecografías, antojos, partos en el hospital y genética mejorada para los bebés.', 15.50);
+
+
 
 
 
@@ -5686,7 +5948,15 @@ INSERT INTO Suscripcion_Mod (ID_Usuario_FK, ID_Producto_Base_FK, ID_Mod_FK, Fech
 (57, 10, 2, '2026-10-14'),  -- Usuario 57 → Party Limit Begone
 (58, 15, 1, '2026-10-14'),  -- Usuario 58 → Randomizer
 (59, 71, 1, '2026-10-15'),  -- Usuario 59 → Bob's Mods
-(60, 72, 1, '2026-10-15');  -- Usuario 60 → Prepare Carefully
+(60, 72, 1, '2026-10-15'),  -- Usuario 60 → Prepare Carefully
+
+(1, 301, 1, '2026-10-18'),
+(2, 301, 1, '2026-10-18'),
+(3, 301, 1, '2026-10-18'),
+(4, 301, 1, '2026-10-18'),
+(5, 301, 1, '2026-10-18'),
+(6, 301, 1, '2026-10-18'),
+(7, 301, 1, '2026-10-18');
 
 /* --------------------------- RESENAS ------------------------------*/
 
@@ -5714,6 +5984,43 @@ FROM
 CROSS JOIN 
     (SELECT TOP 10 ID_Producto FROM Producto_Digital ORDER BY NEWID()) p;
 
+INSERT INTO Resena (Texto_Resena, Calificacion_1_10, Fecha_Publicacion, Es_Critica_Especializada, ID_Usuario_FK, ID_Producto_FK) 
+VALUES ('No me gustó nada, muy aburrido.', 2, '2026-10-11', 0, 3, 309);
+
+
+INSERT INTO Resena (Texto_Resena, Calificacion_1_10, Fecha_Publicacion, Es_Critica_Especializada, ID_Usuario_FK, ID_Producto_FK) 
+VALUES 
+-- Reseñas del Usuario 1 (5 reseñas)
+('Me encanta construir casas.', 9, '2026-10-01', 0, 1, 301),
+('Muy buen juego.', 10, '2026-10-02', 0, 1, 301),
+('Mis Sims viven mejor que yo.', 9, '2026-10-03', 0, 1, 301),
+('El mejor simulador.', 10, '2026-10-04', 0, 1, 301),
+('Adictivo.', 8, '2026-10-05', 0, 1, 301),
+
+-- Reseñas del Usuario 2 (4 reseñas)
+('Buenísimo.', 9, '2026-10-06', 0, 2, 301),
+('Me gusta el nuevo DLC.', 10, '2026-10-07', 0, 2, 301),
+('Muy completo.', 9, '2026-10-08', 0, 2, 301),
+('Entretenido.', 8, '2026-10-09', 0, 2, 301),
+
+-- Reseñas del Usuario 3 (4 reseñas)
+('Horas y horas de diversión.', 9, '2026-10-10', 0, 3, 301),
+('El motor gráfico está bien.', 8, '2026-10-11', 0, 3, 301),
+('Buenos gráficos.', 9, '2026-10-12', 0, 3, 301),
+('Muy buen juego base.', 10, '2026-10-13', 0, 3, 301),
+
+-- Reseñas del Usuario 4 (4 reseñas)
+('No me aburre nunca.', 9, '2026-10-14', 0, 4, 301),
+('Buen simulador.', 8, '2026-10-15', 0, 4, 301),
+('Recomendado.', 9, '2026-10-16', 0, 4, 301),
+('Buena experiencia.', 9, '2026-10-17', 0, 4, 301),
+
+-- Reseñas del Usuario 5 (4 reseñas)
+('Un clásico.', 10, '2026-10-18', 0, 5, 301),
+('Mejor que antes.', 9, '2026-10-19', 0, 5, 301),
+('Muy divertido.', 8, '2026-10-20', 0, 5, 301),
+('Buen juego.', 9, '2026-10-21', 0, 5, 301);
+
 
 /* --------------------------- LOGROS_DESBLOQUEADOS ------------------------------*/
 
@@ -5728,6 +6035,10 @@ INSERT INTO Desbloqueo_Logro (ID_Usuario_FK, ID_Juego_Base_FK, ID_Logro_FK, Fech
 
 INSERT INTO Desbloqueo_Logro (ID_Usuario_FK, ID_Juego_Base_FK, ID_Logro_FK, Fecha_Desbloqueo) VALUES
 (4, 9, 1, '2024-11-20'), (4, 9, 2, '2024-11-25'), (4, 9, 3, '2024-12-01'), (4, 9, 4, '2024-12-10'), (4, 9, 5, '2024-12-20');
+
+INSERT INTO Desbloqueo_Logro (ID_Usuario_FK, ID_Juego_Base_FK, ID_Logro_FK, Fecha_Desbloqueo) 
+VALUES 
+(1, 309, 1, '2026-10-01'), (1, 309, 2, '2026-10-02'), (1, 309, 3, '2026-10-03');
 
 INSERT INTO Desbloqueo_Logro (ID_Usuario_FK, ID_Juego_Base_FK, ID_Logro_FK, Fecha_Desbloqueo) VALUES
 (5, 1, 1, '2024-12-20'), (5, 1, 2, '2024-12-28'),
