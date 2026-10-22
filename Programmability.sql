@@ -166,7 +166,7 @@ AS
             JOIN Factura f ON f.ID_Factura = i.ID_Factura_FK
             JOIN Usuario u ON u.Id_Usuario = f.ID_Usuario_FK
             WHERE (pd.Clasificacion_Edad IN ('M', 'AO'))
-                AND u.Fecha_Nacimiento > DATEADD(YEAR,-18,GETDATE()) 
+                AND u.Fecha_Nacimiento > DATEADD(YEAR,-13,GETDATE()) -- arreglao, aqui la idea es que los mayores de 13 puedan
 
         ) BEGIN
             RAISERROR('Error: papi fuera de aqui que ute no tiene la eda necesaria.', 16, 2);
