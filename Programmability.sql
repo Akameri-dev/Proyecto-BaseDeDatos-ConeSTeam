@@ -136,6 +136,25 @@ GO
 
 /*ADD TRIGGER
 */
+
+CREATE TRIGGER tr_Validar_Edad_Minima
+ON Usuario
+AFTER INSERT, UPDATE
+AS
+BEGIN
+
+    IF EXISTS (
+        SELECT 1
+        FROM INSERTED
+        WHERE Fecha_Nacimiento > DATEADD(YEAR, -13, GETDATE())
+    )
+    BEGIN
+        RAISERROR('Error: papi ute e menor, ute no tiene plata ni idea paee.', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+END;
+GO
+
 CREATE TRIGGER tr_Auditoria_Precios
 ON Producto_Digital
 AFTER UPDATE 
@@ -166,7 +185,7 @@ AS
             JOIN Factura f ON f.ID_Factura = i.ID_Factura_FK
             JOIN Usuario u ON u.Id_Usuario = f.ID_Usuario_FK
             WHERE (pd.Clasificacion_Edad IN ('M', 'AO'))
-                AND u.Fecha_Nacimiento > DATEADD(YEAR,-13,GETDATE()) -- arreglao, aqui la idea es que los mayores de 13 puedan
+                AND u.Fecha_Nacimiento > DATEADD(YEAR,-18,GETDATE()) -- arreglao, aqui la idea es que los mayores de 13 puedan
 
         ) BEGIN
             RAISERROR('Error: papi fuera de aqui que ute no tiene la eda necesaria.', 16, 2);
